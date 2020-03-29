@@ -26,6 +26,20 @@ class CardListActivity : AppCompatActivity(), CardListAdapter.IOnCardClickedList
 
     private val cardListAdapter = CardListAdapter(this)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setupViewModel()
+
+        binding = DataBindingUtil.setContentView(this, R.layout.list_view_activity)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 3, RecyclerView.VERTICAL, false)   //@@TODO: Base count off width of screen
+        binding.recyclerView.adapter = cardListAdapter
+        binding.swipeRefresh.setOnRefreshListener { viewModel.loadData() }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.list_view_activity_menu, menu)
@@ -44,20 +58,6 @@ class CardListActivity : AppCompatActivity(), CardListAdapter.IOnCardClickedList
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setupViewModel()
-
-        binding = DataBindingUtil.setContentView(this, R.layout.list_view_activity)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
-
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 3, RecyclerView.VERTICAL, false)
-        binding.recyclerView.adapter = cardListAdapter
-        binding.swipeRefresh.setOnRefreshListener { viewModel.loadData() }
     }
 
     override fun onCardClicked(id: String) {
