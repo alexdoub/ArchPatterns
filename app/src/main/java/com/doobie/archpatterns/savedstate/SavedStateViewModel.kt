@@ -18,7 +18,7 @@ class SavedStateViewModel(private val stateHandle: SavedStateHandle) : ViewModel
 
     // Params that need to be stored in state go in the stateHandle, which is put in onSavedInstanceState
     private var clickCount: Int
-        get() = stateHandle.get(ParamsAndSavedStateViewModel.KEY_CLICK_COUNT) ?: 100
+        get() = stateHandle.get(ParamsAndSavedStateViewModel.KEY_CLICK_COUNT) ?: 0
         set(value) = stateHandle.set(ParamsAndSavedStateViewModel.KEY_CLICK_COUNT, value)
 
     fun onButtonClicked() {

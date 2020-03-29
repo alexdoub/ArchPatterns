@@ -8,7 +8,6 @@ import androidx.lifecycle.*
  * Created by Alex Doub on 3/28/2020.
  */
 
-
 class ParamsAndSavedStateViewModel(
     private val stateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -17,6 +16,8 @@ class ParamsAndSavedStateViewModel(
         const val KEY_CLICK_COUNT = "click_count"
     }
 
+    // Factory required if arguments passed in
+    // This simple factory just puts the args in the state
     class Factory(
         activity: AppCompatActivity,
         argument: Int

@@ -10,22 +10,29 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
+
+        </activity>
+
+        <activity
+            android:name=".paramsandsavedstate.ParamsAndSavedStateActivity"
+            android:label="Params and Saved State" />
+
+        <activity
+            android:name=".savedstate.SavedStateActivity"
+            android:label="Saved State only" />
+
+        <activity
+            android:name=".imagelistanddetails.CardListActivity"
+            android:label="List View">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:label="Lifecycle Activity"
-            android:name=".paramsandsavedstate.ParamsAndSavedStateActivity"/>
-
-        <activity
-            android:label="Simple Activity"
-            android:name=".savedstate.SavedStateActivity"/>
     </application>
 
 </manifest>

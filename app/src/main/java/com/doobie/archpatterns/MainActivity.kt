@@ -1,9 +1,10 @@
 package com.doobie.archpatterns
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import com.doobie.archpatterns.imagelistanddetails.CardListActivity
 import com.doobie.archpatterns.paramsandsavedstate.ParamsAndSavedStateActivity
 import com.doobie.archpatterns.savedstate.SavedStateActivity
 
@@ -13,12 +14,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.lifecycle_activity).setOnClickListener {
+        findViewById<Button>(R.id.params_and_saved_state_btn).setOnClickListener {
             startActivity(Intent(this, ParamsAndSavedStateActivity::class.java))
         }
 
-        findViewById<Button>(R.id.simple_activity).setOnClickListener {
+        findViewById<Button>(R.id.saved_state_btn).setOnClickListener {
             startActivity(Intent(this, SavedStateActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.list_view_btn).setOnClickListener {
+            startActivity(Intent(this, CardListActivity::class.java))
         }
     }
 }
