@@ -21,7 +21,11 @@
 
         <activity
             android:label="Lifecycle Activity"
-            android:name=".lifecycleactivity.LifecycleActivity"/>
+            android:name=".paramsandsavedstate.ParamsAndSavedStateActivity"/>
+
+        <activity
+            android:label="Simple Activity"
+            android:name=".savedstate.SavedStateActivity"/>
     </application>
 
 </manifest>

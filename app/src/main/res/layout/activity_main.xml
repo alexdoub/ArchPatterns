@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +20,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Livecycle Activity" />
+
+
+        <Button
+            android:id="@+id/simple_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Simple Activity" />
 
     </LinearLayout>
 
