@@ -13,7 +13,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".MainActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -26,21 +29,11 @@
 
         <activity
             android:name=".imagelistanddetails.CardListActivity"
-            android:label="List View (no DB)">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:label="List View (no DB)" />
 
         <activity
             android:name=".imagelistanddetails.withdb.CardListWithDBActivity"
-            android:label="List View (DB)">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="List View (DB)" />
     </application>
 
 </manifest>

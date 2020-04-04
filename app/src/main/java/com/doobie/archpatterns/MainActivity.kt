@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.doobie.archpatterns.imagelistanddetails.CardListActivity
+import com.doobie.archpatterns.imagelistanddetails.withdb.CardListWithDBActivity
 import com.doobie.archpatterns.paramsandsavedstate.ParamsAndSavedStateActivity
 import com.doobie.archpatterns.savedstate.SavedStateActivity
 
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.list_view_btn).setOnClickListener {
             startActivity(Intent(this, CardListActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.list_view_with_db_btn).setOnClickListener {
+            startActivity(Intent(this, CardListWithDBActivity::class.java))
         }
     }
 }
