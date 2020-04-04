@@ -5,4 +5,8 @@
         android:id="@+id/rarities"
         android:title="Rarities"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/clear"
+        android:title="Clear" />
 </menu>

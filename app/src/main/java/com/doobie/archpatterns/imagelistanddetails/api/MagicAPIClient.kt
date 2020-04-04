@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Created by Alex Doub on 3/28/2020.
  */
 
-object MagicAPIClient {
+internal object MagicAPIClient {
     private val magicAPI: MagicAPI
 
     init {

@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso
  * Created by Alex Doub on 3/28/2020.
  */
 
-class CardListAdapter(private val listener: IOnCardClickedListener) : RecyclerView.Adapter<CardListItemViewHolder>() {
+internal class CardListAdapter(private val listener: IOnCardClickedListener) : RecyclerView.Adapter<CardListItemViewHolder>() {
 
     interface IOnCardClickedListener {
         fun onCardClicked(id: String)
@@ -37,7 +37,7 @@ class CardListAdapter(private val listener: IOnCardClickedListener) : RecyclerVi
 
 }
 
-class CardListItemViewHolder(
+internal class CardListItemViewHolder(
     parent: ViewGroup,
     private val listener: CardListAdapter.IOnCardClickedListener,
     private val binding: CardListItemBinding = CardListItemBinding.inflate(

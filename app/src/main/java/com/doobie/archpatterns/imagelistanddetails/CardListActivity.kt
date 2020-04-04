@@ -19,23 +19,27 @@ import com.doobie.archpatterns.databinding.ListViewActivityBinding
  * Created by Alex Doub on 3/28/2020.
  */
 
-class CardListActivity : AppCompatActivity(), CardListAdapter.IOnCardClickedListener {
+internal open class CardListActivity : AppCompatActivity(), CardListAdapter.IOnCardClickedListener {
 
-    private lateinit var binding: ListViewActivityBinding
-    private lateinit var viewModel: CardListViewModel
+    protected lateinit var binding: ListViewActivityBinding
+    protected lateinit var viewModel: CardListViewModel
 
-    private val cardListAdapter = CardListAdapter(this)
+    protected lateinit var cardListAdapter: CardListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        cardListAdapter = CardListAdapter(this) //@@TODO: Move back to inline constructor?
+
         setupViewModel()
+        observeVM()
+        viewModel.loadData()
 
         binding = DataBindingUtil.setContentView(this, R.layout.list_view_activity)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+//        binding.viewModel = viewModel
+//        binding.lifecycleOwner = this
 
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 3, RecyclerView.VERTICAL, false)   //@@TODO: Base count off width of screen
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 3, RecyclerView.VERTICAL, false)
         binding.recyclerView.adapter = cardListAdapter
         binding.swipeRefresh.setOnRefreshListener { viewModel.loadData() }
     }
@@ -56,6 +60,9 @@ class CardListActivity : AppCompatActivity(), CardListAdapter.IOnCardClickedList
                 .create().show()
             return true
         }
+        if (item.itemId == R.id.clear) {
+            viewModel.clearData()
+        }
 
         return super.onOptionsItemSelected(item)
     }
@@ -65,8 +72,11 @@ class CardListActivity : AppCompatActivity(), CardListAdapter.IOnCardClickedList
         //rarities menu item text should go by repo. Or else it would break when data is paged
     }
 
-    private fun setupViewModel() {
+    protected open fun setupViewModel() {
         viewModel = ViewModelProvider(this, SavedStateViewModelFactory(application, this)).get(CardListViewModel::class.java)
+    }
+
+    private fun observeVM() {
         viewModel.listItems.observe(this, Observer {
             cardListAdapter.items = it
         })

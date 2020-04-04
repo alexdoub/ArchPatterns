@@ -5,9 +5,9 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.doobie.archpatterns.imagelistanddetails.CardListViewModel" />
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.doobie.archpatterns.imagelistanddetails.CardListViewModel" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

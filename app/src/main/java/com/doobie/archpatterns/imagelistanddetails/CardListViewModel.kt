@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.doobie.archpatterns.imagelistanddetails.api.MagicAPIClient
+import com.doobie.archpatterns.imagelistanddetails.api.model.Card
 import com.doobie.archpatterns.imagelistanddetails.api.model.CardsResponse
 import com.doobie.archpatterns.imagelistanddetails.model.CardListItem
 import kotlinx.coroutines.Dispatchers
@@ -15,17 +16,17 @@ import kotlinx.coroutines.withContext
  * Created by Alex Doub on 3/28/2020.
  */
 
-class CardListViewModel : ViewModel() {
+internal open class CardListViewModel : ViewModel() {
 
-    private val _listItems = MutableLiveData<List<CardListItem>>()
+    protected  val _listItems = MutableLiveData<List<CardListItem>>()
     val listItems: LiveData<List<CardListItem>>
         get() = _listItems
 
-    private val _isLoading = MutableLiveData<Boolean>(false)
+    protected  val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
-    private val _toastText = MutableLiveData<String>()
+    protected val _toastText = MutableLiveData<String>()
     val toastText: LiveData<String>
         get() = _toastText
 
@@ -34,11 +35,7 @@ class CardListViewModel : ViewModel() {
 
     private val apiClient = MagicAPIClient
 
-    init {
-        loadData()
-    }
-
-    fun loadData() {
+    open fun loadData() {
         if (_isLoading.value!!) return
 
         _isLoading.value = true
@@ -46,7 +43,7 @@ class CardListViewModel : ViewModel() {
             try {
                 val response = apiClient.getCards()
                 withContext(Dispatchers.Main) {
-                    setData(response)
+                    setData(response.cards)
                 }
             } catch (t: Throwable) {
                 _toastText.postValue("Error loading data: ${t.message}")
@@ -56,14 +53,24 @@ class CardListViewModel : ViewModel() {
         }
     }
 
-    private fun setData(response: CardsResponse) {
-        _listItems.value = response.toListItems()
-        val grouped = response.cards.groupBy { it.rarity }.mapValues { it.value.size }
-        rarities = grouped.entries.joinToString(transform = { "${it.key}: ${it.value}" }, separator = ",\n")
+    protected fun setData(cards: List<Card>) {
+        _listItems.value = cards.toListItems()
+        val grouped = cards.groupBy { it.rarity }.mapValues { it.value.size }
+
+        rarities = if (cards.isEmpty()) {
+            "No data"
+        } else {
+            grouped.entries.joinToString(transform = { "${it.key}: ${it.value}" }, separator = ",\n")
+        }
     }
 
-    private fun CardsResponse.toListItems(): List<CardListItem> {
-        return cards.mapNotNull {
+    open fun clearData() {
+        setData(emptyList())
+        _toastText.postValue("Data Cleared (In memory only)")
+    }
+
+    private fun List<Card>.toListItems(): List<CardListItem> {
+        return mapNotNull {
             // Filter bad data
             if (it.imageUrl == null) {
                 null

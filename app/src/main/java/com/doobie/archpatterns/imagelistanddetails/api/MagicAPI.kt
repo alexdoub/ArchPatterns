@@ -7,7 +7,7 @@ import retrofit2.http.GET
  * Created by Alex Doub on 3/28/2020.
  */
 
-interface MagicAPI {
+internal interface MagicAPI {
     @GET("cards")
     suspend fun getCards(): CardsResponse
 }
