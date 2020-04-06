@@ -13,7 +13,7 @@ import com.doobie.archpatterns.imagelistanddetails.withdb.entity.CardEntity
 @Database(entities = [CardEntity::class], version = 1)
 abstract class CardsDB : RoomDatabase() {
 
-    abstract fun currencyDao(): CardsDao
+    abstract fun cardsDao(): CardsDao
 
     companion object {
 

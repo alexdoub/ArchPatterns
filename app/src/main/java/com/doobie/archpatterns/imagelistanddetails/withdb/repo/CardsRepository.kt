@@ -21,11 +21,11 @@ class CardsRepository(context: Context, private val sharedPreferences: SharedPre
 
     private val apiClient = MagicAPIClient
 
-    private val currencyDao: CardsDao = CardsDB.getDatabase(context).currencyDao()
+    private val cardsDao: CardsDao = CardsDB.getDatabase(context).cardsDao()
 
     suspend fun fetchCards(): Boolean {
 
-        if (!dataIsStale()) return false
+        if (dataIsStillFresh()) return false
 
         val response = apiClient.getCards()
         insertCards(response.cards)
@@ -33,7 +33,7 @@ class CardsRepository(context: Context, private val sharedPreferences: SharedPre
     }
 
     fun getCards(): Flow<List<CardEntity>> {
-        return currencyDao.getCards()
+        return cardsDao.getCards()
     }
 
     private suspend fun insertCards(cards: List<Card>) {
@@ -43,27 +43,20 @@ class CardsRepository(context: Context, private val sharedPreferences: SharedPre
             .map { CardEntity(it.id, it.name, it.imageUrl!!, it.rarity) }
 
         // Insert data & save timestamp
-        currencyDao.insertCards(entities)
+        cardsDao.insertCards(entities)
         sharedPreferences.edit()
             .putLong(KEY_LAST_SAVED_TIME, System.currentTimeMillis())
             .apply()
     }
 
     suspend fun deleteCards() {
-        currencyDao.deleteCards()
+        cardsDao.deleteCards()
         sharedPreferences.edit()
             .putLong(KEY_LAST_SAVED_TIME, 0L)
             .apply()
     }
 
-    private fun dataIsStale(): Boolean {
-
-//        val lastSaved = sharedPreferences.getLong(KEY_LAST_SAVED_TIME, 0L)
-//        val currentTime = System.currentTimeMillis()
-//        val difference = currentTime - lastSaved
-//
-//        return difference > DATA_STALE_DURATION
-
-        return sharedPreferences.getLong(KEY_LAST_SAVED_TIME, 0L) + DATA_STALE_DURATION < System.currentTimeMillis()
+    private fun dataIsStillFresh(): Boolean {
+        return sharedPreferences.getLong(KEY_LAST_SAVED_TIME, 0L) + DATA_STALE_DURATION > System.currentTimeMillis()
     }
 }
